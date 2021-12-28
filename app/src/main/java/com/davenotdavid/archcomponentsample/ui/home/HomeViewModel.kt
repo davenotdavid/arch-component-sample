@@ -17,8 +17,8 @@ import javax.inject.Inject
 @ActivityScope
 class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 
-    private val _headline = MutableLiveData<HeadlineResponse>()
-    val headline: LiveData<HeadlineResponse> = _headline
+    private val _headline = MutableLiveData<HeadlineResponse?>()
+    val headline: LiveData<HeadlineResponse?> = _headline
 
     private val disposables = CompositeDisposable()
 
@@ -26,6 +26,7 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
         getHeadlines()
     }
 
+    // TODO: When exactly is this called considering fragments' lifecycle?
     override fun onCleared() {
         disposables.clear()
         super.onCleared()
@@ -41,6 +42,7 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
                 },
                 { throwable ->
                     Log.e("TAG", "Error: $throwable")
+                    _headline.value = null
                 }
             )
         )

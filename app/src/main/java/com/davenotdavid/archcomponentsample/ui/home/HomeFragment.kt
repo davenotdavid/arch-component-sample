@@ -39,8 +39,12 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.headline.observe(viewLifecycleOwner, Observer {
-            textView.text = "Total results: ${it.totalResults}"
+        homeViewModel.headline.observe(viewLifecycleOwner, Observer { headline ->
+            if (headline == null) {
+                textView.text = "Error displaying results"
+            } else {
+                textView.text = "Total results: ${headline.totalResults}"
+            }
         })
         return root
     }
