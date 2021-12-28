@@ -1,7 +1,7 @@
 package com.davenotdavid.archcomponentsample.api
 
 import com.davenotdavid.archcomponentsample.model.HeadlineResponse
-import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,8 +13,8 @@ import retrofit2.http.Query
 interface NewsApiService {
 
     @GET("{path}")
-    fun getHeadlines(@Path("path") path: String,
-                     @Query("q") query: String,
-                     @Query("apiKey") apiKey: String): Single<HeadlineResponse>
+    fun getHeadlinesAsync(@Path("path") path: String,
+                          @Query("q") query: String,
+                          @Query("apiKey") apiKey: String): Deferred<HeadlineResponse>
 
 }

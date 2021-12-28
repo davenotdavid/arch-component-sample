@@ -16,10 +16,10 @@ class HomeFragment : Fragment() {
 
     // Fields that need to be injected by the home graph
     @Inject lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
@@ -39,14 +39,18 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textHome
-        homeViewModel.headline.observe(viewLifecycleOwner, Observer {
-            textView.text = "Total results: ${it.totalResults}"
+        homeViewModel.headline.observe(viewLifecycleOwner, Observer { headline ->
+            if (headline == null) {
+                textView.text = "Error getting total results"
+            } else {
+                textView.text = "Total results: ${headline.totalResults}"
+            }
         })
         return root
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 }
