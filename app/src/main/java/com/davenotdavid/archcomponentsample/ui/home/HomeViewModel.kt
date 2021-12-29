@@ -6,14 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
-import com.davenotdavid.archcomponentsample.dagger.ActivityScope
 import com.davenotdavid.archcomponentsample.model.HeadlineResponse
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-// A unique instance of HomeViewModel is provided in Components
-// annotated with @ActivityScope
-@ActivityScope
 class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 
     private val _headline = MutableLiveData<HeadlineResponse?>()
@@ -21,11 +17,6 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
 
     init {
         getHeadlines()
-    }
-
-    // TODO: When exactly is this called?
-    override fun onCleared() {
-        super.onCleared()
     }
 
     private fun getHeadlines() = viewModelScope.launch {

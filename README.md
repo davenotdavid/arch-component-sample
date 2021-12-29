@@ -6,8 +6,9 @@ Technologies used so far:
 - Retrofit2
 - OkHttp3
 - Kotlin Coroutines
-- Dagger
+- Dagger2
 - TODO: Data Binding
+- TODO: Navigation bundle safe arg plug-in
 - TODO: Room DB
 - TODO: Paging lib
 - TODO: Hilt DI

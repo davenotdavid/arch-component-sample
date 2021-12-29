@@ -1,28 +1,19 @@
 package com.davenotdavid.archcomponentsample
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.davenotdavid.archcomponentsample.app.MyApplication
 import com.davenotdavid.archcomponentsample.databinding.ActivityMainBinding
-import com.davenotdavid.archcomponentsample.ui.home.di.HomeComponent
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
-
-    // Reference to the Home graph
-    lateinit var homeComponent: HomeComponent
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Creation of the home graph using the application graph
-        homeComponent = (applicationContext as MyApplication).appComponent.homeComponent().create()
-        // Make Dagger instantiate @Inject fields in this activity
-        homeComponent.inject(this)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)

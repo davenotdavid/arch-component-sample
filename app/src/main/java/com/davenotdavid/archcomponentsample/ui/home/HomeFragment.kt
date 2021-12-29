@@ -7,27 +7,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.davenotdavid.archcomponentsample.MainActivity
+import androidx.lifecycle.ViewModelProvider
+import com.davenotdavid.archcomponentsample.app.MyApplication
 import com.davenotdavid.archcomponentsample.databinding.FragmentHomeBinding
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    // Fields that need to be injected by the home graph
-    @Inject lateinit var homeViewModel: HomeViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private val homeViewModel by viewModels<HomeViewModel> { viewModelFactory }
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        // Obtaining the home graph from MainActivity and instantiate
+        // Obtaining the home graph from the application class and instantiate
         // the @Inject fields with objects from the graph
-        (activity as MainActivity).homeComponent.inject(this)
+        (requireActivity().application as MyApplication).appComponent.homeComponent().create()
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -41,7 +43,7 @@ class HomeFragment : Fragment() {
         val textView: TextView = binding.textHome
         homeViewModel.headline.observe(viewLifecycleOwner, Observer { headline ->
             if (headline == null) {
-                textView.text = "Error getting total results"
+                textView.text = "Error displaying results"
             } else {
                 textView.text = "Total results: ${headline.totalResults}"
             }
