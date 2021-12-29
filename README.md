@@ -6,7 +6,8 @@ Technologies used so far:
 - Retrofit2
 - OkHttp3
 - RxJava2 (RxJava and RxAndroid)
-- Dagger
+- Dagger2
 - TODO: Data Binding
 - TODO: Room DB
 - TODO: Paging lib
+- TODO: Navigation bundle safe arg plug-in

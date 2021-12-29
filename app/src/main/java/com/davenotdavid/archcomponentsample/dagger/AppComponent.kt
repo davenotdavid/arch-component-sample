@@ -1,22 +1,28 @@
 package com.davenotdavid.archcomponentsample.dagger
 
+import android.content.Context
 import com.davenotdavid.archcomponentsample.ui.home.di.HomeComponent
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 /**
- * Definition of the Application graph.
- * The "modules" attribute in the @Component annotation tells Dagger what Modules
- * to include when building the graph
- *
- * Including SubcomponentsModule, tell ApplicationComponent that
- * LoginComponent is its subcomponent.
+ * Main component for the application.
  */
 @Singleton
-@Component(modules = [AppModule::class, SubcomponentsModule::class])
+@Component(
+    modules = [
+        AppModule::class,
+        ViewModelBuilderModule::class,
+        SubcomponentsModule::class
+    ]
+)
 interface AppComponent {
 
-    // Don't need to inject `MainActivity` here anymore since the subcomponent will handle that now
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance applicationContext: Context): AppComponent
+    }
 
     // This function exposes the HomeComponent Factory out of the graph so consumers
     // can use it to obtain new instances of HomeComponent
