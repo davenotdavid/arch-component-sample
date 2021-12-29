@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
+import com.davenotdavid.archcomponentsample.model.Article
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -12,8 +13,12 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 
-    private val _headlineResults = MutableLiveData<String>()
-    val headlineResults: LiveData<String> = _headlineResults
+    // Inits LiveData val to an empty list to avoid a null-pointer when data binding adapter.
+    private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
+    val articles: LiveData<List<Article>> = _articles
+
+    private val _totalResults = MutableLiveData<String>()
+    val totalResults: LiveData<String> = _totalResults
 
     private val disposables = CompositeDisposable()
 
@@ -35,11 +40,13 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
             .subscribeOn(Schedulers.io())
             .subscribe(
                 { headlineResponse ->
-                    _headlineResults.value = headlineResponse.totalResults.toString()
+                    _totalResults.value = headlineResponse.totalResults.toString()
+                    _articles.value = headlineResponse.articles
                 },
                 { throwable ->
                     Log.e("TAG", "Error: $throwable")
-                    _headlineResults.value = "0"
+                    _totalResults.value = "0"
+                    _articles.value = emptyList()
                 }
             )
         )

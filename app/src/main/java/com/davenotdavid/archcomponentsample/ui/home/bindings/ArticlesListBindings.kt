@@ -1,0 +1,14 @@
+package com.davenotdavid.archcomponentsample.ui.home.bindings
+
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.davenotdavid.archcomponentsample.model.Article
+import com.davenotdavid.archcomponentsample.ui.home.adapter.HomeAdapter
+
+/**
+ * [BindingAdapter] for the [Article] list.
+ */
+@BindingAdapter("app:items")
+fun setItems(recyclerView: RecyclerView, items: List<Article>) {
+    (recyclerView.adapter as HomeAdapter).submitList(items)
+}
