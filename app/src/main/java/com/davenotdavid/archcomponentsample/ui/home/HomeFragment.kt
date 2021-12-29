@@ -47,4 +47,9 @@ class HomeFragment : Fragment() {
         // then updates the UI.
         homeDataBinding.lifecycleOwner = this.viewLifecycleOwner
     }
+
+    override fun onDestroyView() {
+        homeViewModel.clearSubs()
+        super.onDestroyView()
+    }
 }

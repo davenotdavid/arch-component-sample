@@ -22,12 +22,11 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
     }
 
     /**
-     * TODO: Invoked only when returning back to [HomeFragment] prior to re-running the MVVM flow?
-     *  - go as far as forcefully clearing the disposables from the View layer?
+     * Forcefully removes subs since [onCleared] is invoked only when returning
+     * back to the Fragment with this current arch.
      */
-    override fun onCleared() {
+    fun clearSubs() {
         disposables.clear()
-        super.onCleared()
     }
 
     private fun getHeadlines() {
