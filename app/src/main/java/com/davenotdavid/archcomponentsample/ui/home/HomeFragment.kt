@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.davenotdavid.archcomponentsample.app.MyApplication
 import com.davenotdavid.archcomponentsample.databinding.FragmentHomeBinding
@@ -20,8 +18,7 @@ class HomeFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val homeViewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var homeDataBinding: FragmentHomeBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,22 +34,17 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.headline.observe(viewLifecycleOwner, Observer { headline ->
-            if (headline == null) {
-                textView.text = "Error displaying results"
-            } else {
-                textView.text = "Total results: ${headline.totalResults}"
-            }
-        })
-        return root
+        homeDataBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            viewmodel = homeViewModel
+        }
+        return homeDataBinding.root
     }
 
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Sets the lifecycle owner to observe LiveData changes in this binding that
+        // then updates the UI.
+        homeDataBinding.lifecycleOwner = this.viewLifecycleOwner
     }
 }
