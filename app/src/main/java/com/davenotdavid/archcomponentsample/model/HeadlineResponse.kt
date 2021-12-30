@@ -43,7 +43,7 @@ data class Article(
     val description: String,
     val url: String,
     val urlToImage: String,
-    // UTC timestamp
+    // UTC timestamp (e.g. 2021-12-26T16:40:20Z)
     val publishedAt: String,
     val content: String
 )

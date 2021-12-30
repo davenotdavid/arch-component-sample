@@ -2,26 +2,28 @@ package com.davenotdavid.archcomponentsample.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.davenotdavid.archcomponentsample.app.MyApplication
 import com.davenotdavid.archcomponentsample.databinding.FragmentHomeBinding
+import com.davenotdavid.archcomponentsample.ui.home.adapter.HomeAdapter
 import javax.inject.Inject
 
+/**
+ * TODO: Rename this MVVM package when ready
+ */
 class HomeFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val homeViewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var homeDataBinding: FragmentHomeBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,22 +39,34 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        homeDataBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
+            viewmodel = homeViewModel
+        }
+        return homeDataBinding.root
+    }
 
-        val textView: TextView = binding.textHome
-        homeViewModel.headline.observe(viewLifecycleOwner, Observer { headline ->
-            if (headline == null) {
-                textView.text = "Error displaying results"
-            } else {
-                textView.text = "Total results: ${headline.totalResults}"
-            }
-        })
-        return root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Sets the lifecycle owner to observe LiveData changes in this binding that
+        // then updates the UI.
+        homeDataBinding.lifecycleOwner = this.viewLifecycleOwner
+
+        setupArticleAdapter()
     }
 
     override fun onDestroyView() {
-        _binding = null
+        homeViewModel.clearSubs()
         super.onDestroyView()
+    }
+
+    private fun setupArticleAdapter() {
+        val viewModel = homeDataBinding.viewmodel
+        if (viewModel != null) {
+            val adapter = HomeAdapter(viewModel)
+            homeDataBinding.headlineArticleList.adapter = adapter
+        } else {
+            Log.w("tag", "Failed to set up article adapter with ViewModel")
+        }
     }
 }
