@@ -3,7 +3,7 @@ A sample project attempting to use the latest and greatest Android tech. Note th
 
 Technologies used so far:
 - MVVM (with `LiveData` and `ViewModel`)
-- View Binding
+- View/Data Binding
 - Navigation arch component, notably with Fragments
 - Retrofit2
 - OkHttp3
