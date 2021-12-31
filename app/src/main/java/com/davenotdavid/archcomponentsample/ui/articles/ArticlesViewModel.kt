@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.ui.home
+package com.davenotdavid.archcomponentsample.ui.articles
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -8,9 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
 import com.davenotdavid.archcomponentsample.model.Article
 import kotlinx.coroutines.launch
+import com.davenotdavid.archcomponentsample.util.Event
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
+class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 
     // Inits LiveData val to an empty list to avoid a null-pointer when data binding adapter.
     private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
@@ -18,6 +19,9 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
 
     private val _totalResults = MutableLiveData<String>()
     val totalResults: LiveData<String> = _totalResults
+
+    private val _openArticleWebEvent = MutableLiveData<Event<String>>()
+    val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
 
     init {
         getHeadlines()
@@ -29,6 +33,13 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
      */
     fun clearSubs() {
         // TODO: Decide to remove Coroutine scope here since that appears to happen only when `onCleared()` is called
+    }
+
+    /**
+     * Called by Data Binding via [ArticlesAdapter].
+     */
+    fun openArticleWebView(url: String) {
+        _openArticleWebEvent.value = Event(url)
     }
 
     private fun getHeadlines() = viewModelScope.launch {

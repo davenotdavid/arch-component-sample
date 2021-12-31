@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.ui.home
+package com.davenotdavid.archcomponentsample.ui.articles
 
 import android.content.Context
 import android.os.Bundle
@@ -9,21 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.davenotdavid.archcomponentsample.app.MyApplication
-import com.davenotdavid.archcomponentsample.databinding.FragmentHomeBinding
-import com.davenotdavid.archcomponentsample.ui.home.adapter.HomeAdapter
+import com.davenotdavid.archcomponentsample.databinding.FragmentArticlesBinding
+import com.davenotdavid.archcomponentsample.ui.articles.adapter.ArticlesAdapter
+import com.davenotdavid.archcomponentsample.util.EventObserver
 import javax.inject.Inject
 
-/**
- * TODO: Rename this MVVM package when ready
- */
-class HomeFragment : Fragment() {
+class ArticlesFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val homeViewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private lateinit var homeDataBinding: FragmentHomeBinding
+    private val articlesViewModel by viewModels<ArticlesViewModel> { viewModelFactory }
+    private lateinit var homeDataBinding: FragmentArticlesBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,8 +38,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeDataBinding = FragmentHomeBinding.inflate(inflater, container, false).apply {
-            viewmodel = homeViewModel
+        homeDataBinding = FragmentArticlesBinding.inflate(inflater, container, false).apply {
+            viewmodel = articlesViewModel
         }
         return homeDataBinding.root
     }
@@ -53,20 +52,32 @@ class HomeFragment : Fragment() {
         homeDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
         setupArticleAdapter()
+        setupNavigation()
     }
 
     override fun onDestroyView() {
-        homeViewModel.clearSubs()
+        articlesViewModel.clearSubs()
         super.onDestroyView()
     }
 
     private fun setupArticleAdapter() {
         val viewModel = homeDataBinding.viewmodel
         if (viewModel != null) {
-            val adapter = HomeAdapter(viewModel)
+            val adapter = ArticlesAdapter(viewModel)
             homeDataBinding.headlineArticleList.adapter = adapter
         } else {
             Log.w("tag", "Failed to set up article adapter with ViewModel")
         }
+    }
+
+    private fun setupNavigation() {
+        articlesViewModel.openArticleWebEvent.observe(viewLifecycleOwner, EventObserver { url ->
+            goToArticleWebScreen(url)
+        })
+    }
+
+    private fun goToArticleWebScreen(url: String) {
+        val action = ArticlesFragmentDirections.actionArticlesFragmentToArticleDetailFragment(url)
+        findNavController().navigate(action)
     }
 }

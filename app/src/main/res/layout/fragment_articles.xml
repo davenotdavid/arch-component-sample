@@ -9,7 +9,7 @@
 
         <variable
             name="viewmodel"
-            type="com.davenotdavid.archcomponentsample.ui.home.HomeViewModel"
+            type="com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel"
             />
 
     </data>
@@ -17,7 +17,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
+        tools:context=".ui.articles.ArticlesFragment"
         >
 
         <TextView
@@ -30,6 +30,7 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:text="@{viewmodel.totalResults}"
+            android:textAppearance="@android:style/TextAppearance.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

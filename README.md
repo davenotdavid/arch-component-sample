@@ -4,12 +4,12 @@ A sample project attempting to use the latest and greatest Android tech. Note th
 Technologies used so far:
 - MVVM (with `LiveData` and `ViewModel`)
 - View/Data Binding
-- Navigation arch component, notably with Fragments
+- Navigation component, notably with Fragments
 - Retrofit2
 - OkHttp3
 - Kotlin Coroutines
 - Dagger2
-- TODO: Navigation bundle safe arg plug-in
+- TODO: Tests
 - TODO: Room DB
 - TODO: Paging lib
 - TODO: Hilt DI
