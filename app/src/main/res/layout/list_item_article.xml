@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <!-- TODO: Add ViewModel var to handle say, click events -->
     <data>
 
         <variable
             name="article"
             type="com.davenotdavid.archcomponentsample.model.Article"
+            />
+
+        <variable
+            name="viewmodel"
+            type="com.davenotdavid.archcomponentsample.ui.home.HomeViewModel"
             />
 
     </data>
@@ -20,6 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
+        android:onClick="@{() -> viewmodel.openArticleWebView(article.url)}"
+        android:foreground="?attr/selectableItemBackground"
+        tools:ignore="UnusedAttribute"
         >
 
         <TextView

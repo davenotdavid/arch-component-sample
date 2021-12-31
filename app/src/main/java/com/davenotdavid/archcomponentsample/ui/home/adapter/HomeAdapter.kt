@@ -24,12 +24,13 @@ class HomeAdapter(private val homeViewModel: HomeViewModel) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        holder.bind(homeViewModel, item)
     }
 
     class ViewHolder private constructor(private val binding: ListItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(article: Article?) {
+        fun bind(homeViewModel: HomeViewModel, article: Article?) {
+            binding.viewmodel = homeViewModel
             binding.article = article
             // Updates the view bound to modified vars.
             binding.executePendingBindings()

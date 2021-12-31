@@ -2,6 +2,7 @@
     
     <string name="app_name">ArchComponentSample</string>
     <string name="title_home">Home</string>
+    <string name="title_article_detail">Article Detail</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 

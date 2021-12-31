@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.davenotdavid.archcomponentsample.app.MyApplication
 import com.davenotdavid.archcomponentsample.databinding.FragmentHomeBinding
 import com.davenotdavid.archcomponentsample.ui.home.adapter.HomeAdapter
+import com.davenotdavid.archcomponentsample.util.EventObserver
 import javax.inject.Inject
 
 /**
@@ -53,6 +55,7 @@ class HomeFragment : Fragment() {
         homeDataBinding.lifecycleOwner = this.viewLifecycleOwner
 
         setupArticleAdapter()
+        setupNavigation()
     }
 
     override fun onDestroyView() {
@@ -68,5 +71,16 @@ class HomeFragment : Fragment() {
         } else {
             Log.w("tag", "Failed to set up article adapter with ViewModel")
         }
+    }
+
+    private fun setupNavigation() {
+        homeViewModel.openArticleWebEvent.observe(viewLifecycleOwner, EventObserver { url ->
+            goToArticleWebScreen(url)
+        })
+    }
+
+    private fun goToArticleWebScreen(url: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToArticleDetailFragment(url)
+        findNavController().navigate(action)
     }
 }

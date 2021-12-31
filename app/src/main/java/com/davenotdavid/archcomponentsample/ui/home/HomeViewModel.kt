@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
 import com.davenotdavid.archcomponentsample.model.Article
+import com.davenotdavid.archcomponentsample.util.Event
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +21,9 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
     private val _totalResults = MutableLiveData<String>()
     val totalResults: LiveData<String> = _totalResults
 
+    private val _openArticleWebEvent = MutableLiveData<Event<String>>()
+    val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
+
     private val disposables = CompositeDisposable()
 
     init {
@@ -32,6 +36,13 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
      */
     fun clearSubs() {
         disposables.clear()
+    }
+
+    /**
+     * Called by Data Binding via [HomeAdapter].
+     */
+    fun openArticleWebView(url: String) {
+        _openArticleWebEvent.value = Event(url)
     }
 
     private fun getHeadlines() {
