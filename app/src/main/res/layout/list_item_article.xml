@@ -13,7 +13,7 @@
 
         <variable
             name="viewmodel"
-            type="com.davenotdavid.archcomponentsample.ui.home.HomeViewModel"
+            type="com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel"
             />
 
     </data>

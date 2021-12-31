@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.ui.home.adapter
+package com.davenotdavid.archcomponentsample.ui.articles.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,16 +7,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.davenotdavid.archcomponentsample.databinding.ListItemArticleBinding
 import com.davenotdavid.archcomponentsample.model.Article
-import com.davenotdavid.archcomponentsample.ui.home.HomeViewModel
+import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
 
 /**
- * Adapter for the article list. Has a reference to the [HomeViewModel] to send
+ * Adapter for the article list. Has a reference to the [ArticlesViewModel] to send
  * actions back to it.
  *
  * TODO: Consider [RecyclerView] later on
  */
-class HomeAdapter(private val homeViewModel: HomeViewModel) :
-    ListAdapter<Article, HomeAdapter.ViewHolder>(ArticleDiffCallback()) {
+class ArticlesAdapter(private val articlesViewModel: ArticlesViewModel) :
+    ListAdapter<Article, ArticlesAdapter.ViewHolder>(ArticleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
@@ -24,13 +24,13 @@ class HomeAdapter(private val homeViewModel: HomeViewModel) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(homeViewModel, item)
+        holder.bind(articlesViewModel, item)
     }
 
     class ViewHolder private constructor(private val binding: ListItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(homeViewModel: HomeViewModel, article: Article?) {
-            binding.viewmodel = homeViewModel
+        fun bind(articlesViewModel: ArticlesViewModel, article: Article?) {
+            binding.viewmodel = articlesViewModel
             binding.article = article
             // Updates the view bound to modified vars.
             binding.executePendingBindings()

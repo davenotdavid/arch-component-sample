@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.ui.home
+package com.davenotdavid.archcomponentsample.ui.articles
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
+class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
 
     // Inits LiveData val to an empty list to avoid a null-pointer when data binding adapter.
     private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(private val newsApiRepository: NewsApiRe
     }
 
     /**
-     * Called by Data Binding via [HomeAdapter].
+     * Called by Data Binding via [ArticlesAdapter].
      */
     fun openArticleWebView(url: String) {
         _openArticleWebEvent.value = Event(url)

@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home"
+    app:startDestination="@+id/navigation_articles"
     >
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.davenotdavid.archcomponentsample.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home"
+        android:id="@+id/navigation_articles"
+        android:name="com.davenotdavid.archcomponentsample.ui.articles.ArticlesFragment"
+        android:label="@string/title_articles"
+        tools:layout="@layout/fragment_articles"
         >
 
         <action
-            android:id="@+id/action_homeFragment_to_articleDetailFragment"
+            android:id="@+id/action_articlesFragment_to_articleDetailFragment"
             app:destination="@id/navigation_article_detail"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
@@ -36,8 +36,8 @@
             />
 
         <action
-            android:id="@+id/action_articleDetailFragment_to_homeFragment"
-            app:destination="@id/navigation_home"
+            android:id="@+id/action_articleDetailFragment_to_articlesFragment"
+            app:destination="@id/navigation_articles"
             />
 
     </fragment>

@@ -1,7 +1,7 @@
 package com.davenotdavid.archcomponentsample.dagger
 
 import android.content.Context
-import com.davenotdavid.archcomponentsample.ui.home.di.HomeComponent
+import com.davenotdavid.archcomponentsample.ui.articles.di.ArticlesComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -26,6 +26,6 @@ interface AppComponent {
 
     // This function exposes the HomeComponent Factory out of the graph so consumers
     // can use it to obtain new instances of HomeComponent
-    fun homeComponent(): HomeComponent.Factory
+    fun homeComponent(): ArticlesComponent.Factory
 
 }
