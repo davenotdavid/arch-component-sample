@@ -18,6 +18,10 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
     val articles: LiveData<List<Article>> = _articles
 
+    // TODO Live data for loading and error states
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
+
     private val _totalResults = MutableLiveData<String>()
     val totalResults: LiveData<String> = _totalResults
 
@@ -45,7 +49,17 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         _openArticleWebEvent.value = Event(url)
     }
 
+    /**
+     * Data binding with [SwipeRefreshLayout]'s public functions/callbacks to
+     * invoke [onRefresh] below.
+     */
+    fun onRefresh() {
+        getHeadlines()
+    }
+
     private fun getHeadlines() {
+        _dataLoading.value = true
+
         disposables.add(newsApiRepository.getHeadlines(type = "everything", "tesla")
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
@@ -53,11 +67,15 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
                 { headlineResponse ->
                     _totalResults.value = headlineResponse.totalResults.toString()
                     _articles.value = headlineResponse.articles
+
+                    _dataLoading.value = false
                 },
                 { throwable ->
                     Log.e("TAG", "Error: $throwable")
                     _totalResults.value = "0"
                     _articles.value = emptyList()
+
+                    _dataLoading.value = false
                 }
             )
         )
