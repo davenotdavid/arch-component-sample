@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NewsApiRepository @Inject constructor(private val service: NewsApiService) {
+open class NewsApiRepository @Inject constructor(private val service: NewsApiService) {
 
     fun getHeadlines(type: String,
                      category: String): Single<HeadlineResponse>

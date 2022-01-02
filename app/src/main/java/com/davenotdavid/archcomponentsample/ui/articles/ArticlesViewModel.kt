@@ -7,18 +7,24 @@ import androidx.lifecycle.ViewModel
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
 import com.davenotdavid.archcomponentsample.model.Article
 import com.davenotdavid.archcomponentsample.util.Event
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.davenotdavid.archcomponentsample.util.scheduler.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository) : ViewModel() {
+/**
+ * View Model layer that handles the business logic for a list of articles, with it being
+ * independent of the View layer.
+ *
+ * @param newsApiRepository is the injected repo instance to make service calls
+ * @param schedulerProvider is the injected [Scheduler] to handle both app and test cases
+ */
+class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsApiRepository,
+                                            private val schedulerProvider: BaseSchedulerProvider) : ViewModel() {
 
     // Inits LiveData val to an empty list to avoid a null-pointer when data binding adapter.
     private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
     val articles: LiveData<List<Article>> = _articles
 
-    // TODO Live data for loading and error states
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
@@ -30,8 +36,11 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
 
     private val disposables = CompositeDisposable()
 
+    /**
+     * TODO: How about for testing out Mocked calls?
+     */
     init {
-        getHeadlines()
+//        getHeadlines()
     }
 
     /**
@@ -57,12 +66,12 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         getHeadlines()
     }
 
-    private fun getHeadlines() {
+    fun getHeadlines() {
         _dataLoading.value = true
 
-        disposables.add(newsApiRepository.getHeadlines(type = "everything", "tesla")
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+        disposables.add(newsApiRepository.getHeadlines(type = "everything", category = "tesla")
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .subscribe(
                 { headlineResponse ->
                     _totalResults.value = headlineResponse.totalResults.toString()

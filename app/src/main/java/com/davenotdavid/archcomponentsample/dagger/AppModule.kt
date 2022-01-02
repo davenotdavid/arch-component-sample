@@ -2,6 +2,8 @@ package com.davenotdavid.archcomponentsample.dagger
 
 import com.davenotdavid.archcomponentsample.BuildConfig
 import com.davenotdavid.archcomponentsample.api.NewsApiService
+import com.davenotdavid.archcomponentsample.util.scheduler.BaseSchedulerProvider
+import com.davenotdavid.archcomponentsample.util.scheduler.SchedulerProvider
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -33,4 +35,8 @@ class AppModule {
             .build()
             .create(NewsApiService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideSchedulerProvider(): BaseSchedulerProvider = SchedulerProvider()
 }
