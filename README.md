@@ -8,8 +8,7 @@ Technologies used so far:
 - Retrofit2
 - OkHttp3
 - Kotlin Coroutines
-- Dagger2
+- Dagger's Hilt
 - TODO: Tests
 - TODO: Room DB
 - TODO: Paging lib
-- TODO: Hilt DI
