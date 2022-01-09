@@ -40,7 +40,7 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
      * TODO: How about for testing out Mocked calls?
      */
     init {
-//        getHeadlines()
+        getHeadlines()
     }
 
     /**
