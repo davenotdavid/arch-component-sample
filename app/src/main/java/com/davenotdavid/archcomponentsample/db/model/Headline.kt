@@ -10,9 +10,9 @@ import com.davenotdavid.archcomponentsample.model.HeadlineResponse
 data class Headline(
 
     // TODO: Generate own key?
-//    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true)
 //    @ColumnInfo(name = "id")
-//    val id: String,
+    val id: Int? = null,
 
     @ColumnInfo(name = "status")
     val status: String? = null,
