@@ -3,9 +3,11 @@ package com.davenotdavid.archcomponentsample.api
 import android.content.Context
 import com.davenotdavid.archcomponentsample.BuildConfig
 import com.davenotdavid.archcomponentsample.db.HeadlineDao
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
-import com.davenotdavid.archcomponentsample.util.extensions.isNetworkConnected
-import io.reactivex.Single
+import com.davenotdavid.archcomponentsample.db.model.DbHeadline
+import com.davenotdavid.archcomponentsample.model.Headline
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,14 +17,36 @@ open class NewsApiRepository @Inject constructor(private val context: Context,
                                                  private val headlineDao: HeadlineDao)
 {
 
-    fun getHeadlines(type: String,
-                     category: String): Single<HeadlineResponse>
+    /**
+     * TODO: Get [Headline] DB data at first, otherwise service call?
+     */
+    fun getHeadlines(
+        type: String,
+        category: String,
+        onSuccessCallback: (Headline) -> Unit,
+        onErrorCallback: (Any?) -> Unit): Disposable
     {
-        if (context.isNetworkConnected()) {
-            return service.getHeadlines(type, category, BuildConfig.NEWS_API_KEY)
-        } else {
-            return Single.just(headlineDao.getHeadlines().first().toHeadlineResponse())
-        }
+        return headlineDao.getHeadline()
+            .onErrorResumeNext(service.getHeadlines(type, category, BuildConfig.NEWS_API_KEY).map {
+                it.toDbHeadline()
+            })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { dbHeadline ->
+                    headlineDao.insertHeadline(dbHeadline)
+
+                    onSuccessCallback.invoke(dbHeadline.toHeadline())
+                },
+                { throwable ->
+                    onErrorCallback.invoke(throwable)
+                }
+            )
+//        if (context.isNetworkConnected()) {
+//            return service.getHeadlines(type, category, BuildConfig.NEWS_API_KEY)
+//        } else {
+//            return Single.just(headlineDao.getHeadline().toHeadlineResponse())
+//        }
     }
 
 }

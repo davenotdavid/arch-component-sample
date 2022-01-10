@@ -1,6 +1,6 @@
 package com.davenotdavid.archcomponentsample.api
 
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
+import com.davenotdavid.archcomponentsample.model.Headline
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,6 +15,6 @@ interface NewsApiService {
     @GET("{path}")
     fun getHeadlines(@Path("path") path: String,
                      @Query("q") query: String,
-                     @Query("apiKey") apiKey: String): Single<HeadlineResponse>
+                     @Query("apiKey") apiKey: String): Single<Headline>
 
 }

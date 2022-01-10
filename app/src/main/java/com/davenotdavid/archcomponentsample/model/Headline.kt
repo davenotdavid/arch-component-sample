@@ -1,5 +1,8 @@
 package com.davenotdavid.archcomponentsample.model
 
+import com.davenotdavid.archcomponentsample.db.model.DbHeadline
+import java.util.UUID
+
 /**
  * Example response:
 {
@@ -25,11 +28,21 @@ package com.davenotdavid.archcomponentsample.model
     ]
 }
  */
-data class HeadlineResponse(
+data class Headline(
+    // Assign its own ID since the News API service doesn't return one
+    val id: String = UUID.randomUUID().toString(),
     val status: String,
     val totalResults: Int,
     val articles: List<Article>
-)
+) {
+
+    fun toDbHeadline(): DbHeadline = DbHeadline(
+        id,
+        status,
+        totalResults,
+        articles
+    )
+}
 
 data class Source(
     val id: String?,
@@ -37,6 +50,8 @@ data class Source(
 )
 
 data class Article(
+    // Assign its own ID since the News API service doesn't return one
+    val id: String = UUID.randomUUID().toString(),
     val source: Source,
     val author: String,
     val title: String,

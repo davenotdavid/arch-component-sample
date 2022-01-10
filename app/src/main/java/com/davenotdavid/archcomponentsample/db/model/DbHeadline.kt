@@ -4,15 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.davenotdavid.archcomponentsample.model.Article
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
+import com.davenotdavid.archcomponentsample.model.Headline
 
 @Entity(tableName = "headline")
-data class Headline(
+data class DbHeadline(
 
-    // TODO: Generate own key?
-    @PrimaryKey(autoGenerate = true)
-//    @ColumnInfo(name = "id")
-    val id: Int? = null,
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    val id: String,
 
     @ColumnInfo(name = "status")
     val status: String? = null,
@@ -26,9 +25,10 @@ data class Headline(
 ) {
 
     /**
-     * TODO
+     * TODO: How to properly handle nullability above?
      */
-    fun toHeadlineResponse(): HeadlineResponse = HeadlineResponse(
+    fun toHeadline(): Headline = Headline(
+        id,
         status!!,
         totalResults!!,
         articles!!

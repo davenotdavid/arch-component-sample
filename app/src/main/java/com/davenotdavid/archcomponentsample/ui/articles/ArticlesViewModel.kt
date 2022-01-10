@@ -66,27 +66,44 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         getHeadlines()
     }
 
+    /**
+     * TODO: Official?
+     */
     fun getHeadlines() {
         _dataLoading.value = true
 
-        disposables.add(newsApiRepository.getHeadlines(type = "everything", category = "tesla")
-            .subscribeOn(schedulerProvider.io())
-            .observeOn(schedulerProvider.ui())
-            .subscribe(
-                { headlineResponse ->
-                    _totalResults.value = headlineResponse.totalResults.toString()
-                    _articles.value = headlineResponse.articles
+        disposables.add(newsApiRepository.getHeadlines(type = "everything", category = "tesla",
+            onSuccessCallback = { headline ->
+                _totalResults.value = headline.totalResults.toString()
+                _articles.value = headline.articles
 
-                    _dataLoading.value = false
-                },
-                { throwable ->
-                    Log.e("TAG", "Error: $throwable")
-                    _totalResults.value = "0"
-                    _articles.value = emptyList()
+                _dataLoading.value = false
+            },
+            onErrorCallback = { throwable ->
+                Log.e(ArticlesViewModel::class.java.name, "Error: $throwable")
+                _totalResults.value = "0"
+                _articles.value = emptyList()
 
-                    _dataLoading.value = false
-                }
-            )
+                _dataLoading.value = false
+            })
+
+//            .subscribeOn(schedulerProvider.io())
+//            .observeOn(schedulerProvider.ui())
+//            .subscribe(
+//                { headlineResponse ->
+//                    _totalResults.value = headlineResponse.totalResults.toString()
+//                    _articles.value = headlineResponse.articles
+//
+//                    _dataLoading.value = false
+//                },
+//                { throwable ->
+//                    Log.e("TAG", "Error: $throwable")
+//                    _totalResults.value = "0"
+//                    _articles.value = emptyList()
+//
+//                    _dataLoading.value = false
+//                }
+//            )
         )
     }
 }
