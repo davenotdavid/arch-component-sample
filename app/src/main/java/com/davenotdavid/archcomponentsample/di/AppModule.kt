@@ -1,7 +1,11 @@
-package com.davenotdavid.archcomponentsample.dagger
+package com.davenotdavid.archcomponentsample.di
 
+import android.content.Context
+import androidx.room.Room
 import com.davenotdavid.archcomponentsample.BuildConfig
 import com.davenotdavid.archcomponentsample.api.NewsApiService
+import com.davenotdavid.archcomponentsample.db.AppDatabase
+import com.davenotdavid.archcomponentsample.db.HeadlineDao
 import com.davenotdavid.archcomponentsample.util.scheduler.BaseSchedulerProvider
 import com.davenotdavid.archcomponentsample.util.scheduler.SchedulerProvider
 import com.google.gson.Gson
@@ -39,4 +43,33 @@ class AppModule {
     @Singleton
     @Provides
     fun provideSchedulerProvider(): BaseSchedulerProvider = SchedulerProvider()
+
+    /**
+     * TODO: DB migrations here?
+     */
+    @Singleton
+    @Provides
+    fun provideAppDatabase(context: Context): AppDatabase {
+//        val MIGRATION_1_2 = object : Migration(1, 2) {
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//                database.execSQL("ALTER TABLE questions ADD COLUMN testStr TEXT")
+//            }
+//        }
+//
+//        val MIGRATION_2_3 = object : Migration(2, 3) {
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//                database.execSQL("ALTER TABLE questions ADD COLUMN testInt INTEGER")
+//            }
+//        }
+
+        return Room.databaseBuilder(context, AppDatabase::class.java, "app_db_dev")
+            //.addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideHeadlineDao(db: AppDatabase): HeadlineDao {
+        return db.headlineDao()
+    }
 }

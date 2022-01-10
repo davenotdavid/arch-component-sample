@@ -1,7 +1,7 @@
 package com.davenotdavid.archcomponentsample.ui.articles.di
 
 import androidx.lifecycle.ViewModel
-import com.davenotdavid.archcomponentsample.dagger.ViewModelKey
+import com.davenotdavid.archcomponentsample.di.ViewModelKey
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
 import dagger.Binds
 import dagger.Module

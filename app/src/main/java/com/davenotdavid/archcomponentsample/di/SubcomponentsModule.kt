@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.dagger
+package com.davenotdavid.archcomponentsample.di
 
 import com.davenotdavid.archcomponentsample.ui.articles.di.ArticlesComponent
 import dagger.Module

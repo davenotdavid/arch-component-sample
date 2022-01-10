@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.dagger
+package com.davenotdavid.archcomponentsample.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

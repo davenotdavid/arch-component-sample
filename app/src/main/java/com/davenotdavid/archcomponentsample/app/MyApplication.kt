@@ -1,8 +1,8 @@
 package com.davenotdavid.archcomponentsample.app
 
 import android.app.Application
-import com.davenotdavid.archcomponentsample.dagger.AppComponent
-import com.davenotdavid.archcomponentsample.dagger.DaggerAppComponent
+import com.davenotdavid.archcomponentsample.di.AppComponent
+import com.davenotdavid.archcomponentsample.di.DaggerAppComponent
 
 class MyApplication : Application() {
 

@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.dagger
+package com.davenotdavid.archcomponentsample.di
 
 import android.content.Context
 import com.davenotdavid.archcomponentsample.ui.articles.di.ArticlesComponent
