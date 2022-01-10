@@ -7,6 +7,7 @@ import androidx.room.Query
 import com.davenotdavid.archcomponentsample.db.model.Headline
 
 /**
+ * TODO: Coroutines support
  * TODO: [Headline] root object, or [Articles]
  * TODO: ^ rename accordingly
  */

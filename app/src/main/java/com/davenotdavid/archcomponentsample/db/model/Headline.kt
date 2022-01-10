@@ -9,10 +9,13 @@ import com.davenotdavid.archcomponentsample.model.HeadlineResponse
 @Entity(tableName = "headline")
 data class Headline(
 
-    // TODO: Generate own key?
-//    @PrimaryKey(autoGenerate = true)
+    /**
+     * TODO: Generate own key?
+     * TODO: How to map to response model?
+     */
+    @PrimaryKey(autoGenerate = true)
 //    @ColumnInfo(name = "id")
-//    val id: String,
+    val id: Int? = null,
 
     @ColumnInfo(name = "status")
     val status: String? = null,

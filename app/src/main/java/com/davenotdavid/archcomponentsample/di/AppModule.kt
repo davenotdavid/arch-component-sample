@@ -1,12 +1,17 @@
 package com.davenotdavid.archcomponentsample.di
 
+import android.content.Context
+import androidx.room.Room
 import com.davenotdavid.archcomponentsample.BuildConfig
 import com.davenotdavid.archcomponentsample.api.NewsApiService
+import com.davenotdavid.archcomponentsample.db.AppDatabase
+import com.davenotdavid.archcomponentsample.db.HeadlineDao
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -42,4 +47,31 @@ class AppModule {
             .build()
             .create(NewsApiService::class.java)
     }
+
+    /**
+     * TODO: Handle DB migrations here?
+     */
+    @Singleton
+    @Provides
+    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+        /*val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE questions ADD COLUMN testStr TEXT")
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE questions ADD COLUMN testInt INTEGER")
+            }
+        }*/
+
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app_db_dev")
+            //.addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideHeadlineDao(db: AppDatabase): HeadlineDao = db.headlineDao()
 }
