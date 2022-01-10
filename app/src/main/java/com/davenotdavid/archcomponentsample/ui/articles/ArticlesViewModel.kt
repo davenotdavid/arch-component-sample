@@ -28,12 +28,18 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     private val _articles = MutableLiveData<List<Article>>().apply { value = emptyList() }
     val articles: LiveData<List<Article>> = _articles
 
+    private val _dataLoading = MutableLiveData<Boolean>()
+    val dataLoading: LiveData<Boolean> = _dataLoading
+
     private val _totalResults = MutableLiveData<String>()
     val totalResults: LiveData<String> = _totalResults
 
     private val _openArticleWebEvent = MutableLiveData<Event<String>>()
     val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
 
+    /**
+     * TODO: How about for testing out Mocked calls?
+     */
     init {
         getHeadlines()
     }
@@ -53,15 +59,27 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         _openArticleWebEvent.value = Event(url)
     }
 
+    /**
+     * Data binding with [SwipeRefreshLayout]'s public functions/callbacks to
+     * invoke [onRefresh] below.
+     */
+    fun onRefresh() {
+        getHeadlines()
+    }
+
     private fun getHeadlines() = viewModelScope.launch {
+        _dataLoading.value = true
+
         try {
             val headlineResponse = newsApiRepository.getHeadlines(type = "everything", "tesla")
             _totalResults.value = headlineResponse.totalResults.toString()
             _articles.value = headlineResponse.articles
+            _dataLoading.value = false
         } catch (ex: Exception) {
             Log.e("TAG", "Exception $ex")
             _totalResults.value = "0"
             _articles.value = emptyList()
+            _dataLoading.value = false
         }
     }
 }
