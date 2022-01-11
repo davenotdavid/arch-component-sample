@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.davenotdavid.archcomponentsample.db.model.Headline
+import com.davenotdavid.archcomponentsample.db.model.DbHeadline
 import com.davenotdavid.archcomponentsample.db.typeconverter.ListArticleTypeConverter
 
-@Database(entities = [Headline::class], version = 1)
+@Database(entities = [DbHeadline::class], version = 1)
 @TypeConverters(ListArticleTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 

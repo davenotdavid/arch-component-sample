@@ -4,13 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.davenotdavid.archcomponentsample.db.model.Headline
+import com.davenotdavid.archcomponentsample.db.model.DbHeadline
 
-/**
- * TODO: Coroutines support
- * TODO: [Headline] root object, or [Articles]
- * TODO: ^ rename accordingly
- */
 @Dao
 interface HeadlineDao {
 
@@ -18,9 +13,9 @@ interface HeadlineDao {
     fun deleteAllHeadlines()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertHeadline(headline: Headline)
+    fun insertHeadline(dbHeadline: DbHeadline)
 
     @Query("SELECT * from headline")
-    fun getHeadlines(): List<Headline>
+    fun getHeadline(): DbHeadline
 
 }

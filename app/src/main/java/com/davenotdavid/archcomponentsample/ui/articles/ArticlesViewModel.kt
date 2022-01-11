@@ -71,9 +71,9 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         _dataLoading.value = true
 
         try {
-            val headlineResponse = newsApiRepository.getHeadlines(type = "everything", "tesla")
-            _totalResults.value = headlineResponse.totalResults.toString()
-            _articles.value = headlineResponse.articles
+            val headline = newsApiRepository.getHeadlines(type = "everything", "tesla")
+            _totalResults.value = headline.totalResults.toString()
+            _articles.value = headline.articles
             _dataLoading.value = false
         } catch (ex: Exception) {
             Log.e("TAG", "Exception $ex")

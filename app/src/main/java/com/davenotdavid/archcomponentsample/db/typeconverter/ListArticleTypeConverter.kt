@@ -5,9 +5,6 @@ import com.davenotdavid.archcomponentsample.model.Article
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-/**
- * TODO
- */
 class ListArticleTypeConverter {
 
     @TypeConverter

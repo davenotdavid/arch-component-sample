@@ -9,6 +9,6 @@ Technologies used so far:
 - OkHttp3
 - Kotlin Coroutines
 - Dagger's Hilt
-- TODO: Tests
-- TODO: Room DB
+- Room DB
+- Unit testing w/ Mockito
 - TODO: Paging lib

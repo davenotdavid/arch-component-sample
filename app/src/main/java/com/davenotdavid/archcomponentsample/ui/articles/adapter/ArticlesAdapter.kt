@@ -56,8 +56,7 @@ class ArticlesAdapter(private val articlesViewModel: ArticlesViewModel) :
  */
 class ArticleDiffCallback : DiffUtil.ItemCallback<Article>() {
     override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
-        // TODO: Generally with IDs instead, but temporarily using `title` for now
-        return oldItem.title == newItem.title
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {

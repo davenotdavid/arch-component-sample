@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.davenotdavid.archcomponentsample.api.NewsApiRepository
 import com.davenotdavid.archcomponentsample.api.NewsApiService
 import com.davenotdavid.archcomponentsample.model.Article
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
+import com.davenotdavid.archcomponentsample.model.Headline
 import com.davenotdavid.archcomponentsample.model.Source
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
 import com.davenotdavid.archcomponentsample.util.LiveDataTestUtil
@@ -38,7 +38,7 @@ class ArticlesViewModelTest {
 
     @Test
     fun getAllHeadlinesFromRepo_loadingStateAndDataLoaded() {
-        val dummyHeadline = HeadlineResponse(
+        val dummyHeadline = Headline(
             status = "ok",
             totalResults = 1,
             articles = listOf(

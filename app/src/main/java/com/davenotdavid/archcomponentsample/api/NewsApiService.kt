@@ -1,6 +1,6 @@
 package com.davenotdavid.archcomponentsample.api
 
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
+import com.davenotdavid.archcomponentsample.model.Headline
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,6 +15,6 @@ interface NewsApiService {
     @GET("{path}")
     fun getHeadlinesAsync(@Path("path") path: String,
                           @Query("q") query: String,
-                          @Query("apiKey") apiKey: String): Deferred<HeadlineResponse>
+                          @Query("apiKey") apiKey: String): Deferred<Headline>
 
 }

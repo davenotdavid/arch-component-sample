@@ -3,11 +3,12 @@ package com.davenotdavid.archcomponentsample.api
 import android.content.Context
 import com.davenotdavid.archcomponentsample.BuildConfig
 import com.davenotdavid.archcomponentsample.db.HeadlineDao
-import com.davenotdavid.archcomponentsample.model.HeadlineResponse
+import com.davenotdavid.archcomponentsample.model.Headline
+import com.davenotdavid.archcomponentsample.util.extensions.isNetworkConnected
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import com.davenotdavid.archcomponentsample.util.extensions.isNetworkConnected
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.util.UUID
 import javax.inject.Inject
 
 /**
@@ -25,13 +26,21 @@ class NewsApiRepository @Inject constructor(@ApplicationContext private val appC
      */
     @Throws(Exception::class)
     suspend fun getHeadlines(type: String,
-                             category: String): HeadlineResponse
+                             category: String): Headline
     {
         return withContext(Dispatchers.IO) {
             if (appContext.isNetworkConnected()) {
-                service.getHeadlinesAsync(type, category, BuildConfig.NEWS_API_KEY).await()
+                val headline = service.getHeadlinesAsync(type, category, BuildConfig.NEWS_API_KEY).await()
+                // Ugly, but manually assign IDs here since the service doesn't have them.
+                headline.id = UUID.randomUUID().toString()
+                headline.articles.map { it.id = UUID.randomUUID().toString() }
+
+                // Updates cache.
+                headlineDao.insertHeadline(headline.toDbHeadline())
+
+                return@withContext headline
             } else {
-                headlineDao.getHeadlines().first().toHeadlineResponse()
+                headlineDao.getHeadline().toHeadline()
             }
         }
     }
