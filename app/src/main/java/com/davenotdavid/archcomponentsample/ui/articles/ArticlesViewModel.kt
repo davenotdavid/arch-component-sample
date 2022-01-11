@@ -45,14 +45,6 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     }
 
     /**
-     * Forcefully removes subs since [onCleared] is invoked only when returning
-     * back to the Fragment with this current arch.
-     */
-    fun clearSubs() {
-        // TODO: Decide to remove Coroutine scope here since that appears to happen only when `onCleared()` is called
-    }
-
-    /**
      * Called by Data Binding via [ArticlesAdapter].
      */
     fun openArticleWebView(url: String) {

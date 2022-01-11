@@ -41,11 +41,6 @@ class ArticlesFragment : Fragment() {
         setupNavigation()
     }
 
-    override fun onDestroyView() {
-        articlesViewModel.clearSubs()
-        super.onDestroyView()
-    }
-
     private fun setupArticleAdapter() {
         val viewModel = homeDataBinding.viewmodel
         if (viewModel != null) {

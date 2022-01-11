@@ -31,7 +31,8 @@ class NewsApiRepository @Inject constructor(@ApplicationContext private val appC
         return withContext(Dispatchers.IO) {
             if (appContext.isNetworkConnected()) {
                 val headline = service.getHeadlinesAsync(type, category, BuildConfig.NEWS_API_KEY).await()
-                // Ugly, but manually assign IDs here since the service doesn't have them.
+                // Ugly, but gets the job done for assigning IDs here since the service doesn't
+                // include them.
                 headline.id = UUID.randomUUID().toString()
                 headline.articles.map { it.id = UUID.randomUUID().toString() }
 
