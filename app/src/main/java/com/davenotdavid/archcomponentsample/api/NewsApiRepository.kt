@@ -8,6 +8,7 @@ import com.davenotdavid.archcomponentsample.util.extensions.isNetworkConnected
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import java.util.UUID
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ import javax.inject.Inject
  * Hilt's View Model annotation.
  */
 class NewsApiRepository @Inject constructor(@ApplicationContext private val appContext: Context,
+                                            private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
                                             private val service: NewsApiService,
                                             private val headlineDao: HeadlineDao)
 {
@@ -28,7 +30,7 @@ class NewsApiRepository @Inject constructor(@ApplicationContext private val appC
     suspend fun getHeadlines(type: String,
                              category: String): Headline
     {
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
             if (appContext.isNetworkConnected()) {
                 val headline = service.getHeadlinesAsync(type, category, BuildConfig.NEWS_API_KEY).await()
                 // Ugly, but gets the job done for assigning IDs here since the service doesn't

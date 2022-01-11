@@ -59,7 +59,7 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
         getHeadlines()
     }
 
-    private fun getHeadlines() = viewModelScope.launch {
+    fun getHeadlines() = viewModelScope.launch {
         _dataLoading.value = true
 
         try {
