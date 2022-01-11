@@ -9,6 +9,6 @@ Technologies used so far:
 - OkHttp3
 - RxJava2 (RxJava and RxAndroid)
 - Dagger2
-- TODO: Tests
-- TODO: Room DB
+- Room DB
+- Unit testing w/ Mockito
 - TODO: Paging lib
