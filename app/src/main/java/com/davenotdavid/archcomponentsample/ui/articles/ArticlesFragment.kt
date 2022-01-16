@@ -23,7 +23,7 @@ class ArticlesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         homeDataBinding = FragmentArticlesBinding.inflate(inflater, container, false).apply {
             viewmodel = articlesViewModel
         }

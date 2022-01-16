@@ -12,4 +12,11 @@
         android:layout_height="match_parent"
         />
 
+    <include
+        android:id="@+id/article_page_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/include_progress_bar"
+        />
+
 </FrameLayout>
