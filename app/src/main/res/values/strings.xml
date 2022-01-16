@@ -1,6 +1,9 @@
 <resources>
     
     <string name="app_name">ArchComponentSample</string>
+
+    <string name="content_desc_article_thumbnail_image">Article Thumbnail Image</string>
+
     <string name="title_articles">Articles</string>
     <string name="title_article_detail">Article Detail</string>
     <string name="title_dashboard">Dashboard</string>

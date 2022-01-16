@@ -31,9 +31,6 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _totalResults = MutableLiveData<String>()
-    val totalResults: LiveData<String> = _totalResults
-
     private val _openArticleWebEvent = MutableLiveData<Event<String>>()
     val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
 
@@ -64,12 +61,10 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
 
         try {
             val headline = newsApiRepository.getHeadlines(type = "everything", "tesla")
-            _totalResults.value = headline.totalResults.toString()
             _articles.value = headline.articles
             _dataLoading.value = false
         } catch (ex: Exception) {
             Log.e("TAG", "Exception $ex")
-            _totalResults.value = "0"
             _articles.value = emptyList()
             _dataLoading.value = false
         }

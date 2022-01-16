@@ -12,8 +12,6 @@ import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
 /**
  * Adapter for the article list. Has a reference to the [ArticlesViewModel] to send
  * actions back to it.
- *
- * TODO: Consider [RecyclerView] later on
  */
 class ArticlesAdapter(private val articlesViewModel: ArticlesViewModel) :
     ListAdapter<Article, ArticlesAdapter.ViewHolder>(ArticleDiffCallback()) {

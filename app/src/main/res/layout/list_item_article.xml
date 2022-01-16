@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     >
 
@@ -18,36 +19,66 @@
 
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/padding_default"
         android:onClick="@{() -> viewmodel.openArticleWebView(article.url)}"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UnusedAttribute"
         >
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/article_half_horiz_guideline"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent="0.5"
+            />
+
+        <ImageView
+            android:id="@+id/article_thumbnail_image"
+            android:contentDescription="@string/content_desc_article_thumbnail_image"
+            android:layout_width="@dimen/article_thumbnail_image_width"
+            android:layout_height="@dimen/article_thumbnail_image_height"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{article.urlToImage}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/ic_placeholder"
+            />
+
         <TextView
             android:id="@+id/article_title_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium"
+            android:textAppearance="@android:style/TextAppearance.Large"
             android:text="@{article.title}"
+            android:layout_marginStart="@dimen/margin_half"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintStart_toEndOf="@+id/article_thumbnail_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/article_half_horiz_guideline"
             tools:text="Article Title"
             />
 
         <TextView
             android:id="@+id/article_published_ago_text"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             android:textColor="@android:color/darker_gray"
             android:text="@{article.publishedAt}"
+            app:layout_constraintStart_toStartOf="@+id/article_title_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/article_half_horiz_guideline"
             tools:text="22 minutes ago"
             />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
