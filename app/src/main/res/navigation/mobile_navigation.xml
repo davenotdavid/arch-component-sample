@@ -16,8 +16,8 @@
         <action
             android:id="@+id/action_articlesFragment_to_articleDetailFragment"
             app:destination="@id/navigation_article_detail"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
+            app:enterAnim="@anim/slide_left"
+            app:exitAnim="@anim/slide_right"
             />
 
     </fragment>
