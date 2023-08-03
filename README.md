@@ -8,6 +8,8 @@ A sample project attempting to use the latest and greatest Android tech. The cod
 - Room DB
 - Unit testing w/ Mockito
 
+[dev-arch-mvi](https://github.com/davenotdavid/arch-component-sample/tree/dev-arch-mvi) attempts to use MVI (on top of MVVM for components like ViewModel, CoroutineScope, and etc.).
+
 Note that the app is getting its data from [News API](https://newsapi.org).
 
 Demo:
