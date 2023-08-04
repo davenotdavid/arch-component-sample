@@ -1,5 +1,5 @@
 # Android Architecture Component Sample Project
-A sample project attempting to use the latest and greatest Android tech. This branch attempts to use MVI (on top of MVVM for components like `ViewModel`, `CoroutineScope`, and etc.).
+A sample project attempting to use the latest and greatest Android tech. This branch attempts to use MVI (on top of MVVM for its `ViewModel` components like `CoroutineScope`, Dagger's Hilt DI, and etc.).
 
 Note that the app is getting its data from [News API](https://newsapi.org).
 
