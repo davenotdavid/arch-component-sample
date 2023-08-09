@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
+    <!-- TODO: Remove when ready -->
+
     <data>
 
         <variable
@@ -27,7 +29,7 @@
             tools:context=".ui.articles.ArticlesFragment"
             >
 
-            <androidx.recyclerview.widget.RecyclerView
+            <!--<androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/headline_article_list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -39,7 +41,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 
-            <!-- TODO: Covered by bottom nav tabs -->
+            &lt;!&ndash; TODO: Covered by bottom nav tabs &ndash;&gt;
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/refresh_headline_button"
                 android:src="@drawable/ic_refresh_24"
@@ -50,7 +52,7 @@
                 android:layout_marginBottom="@dimen/padding_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

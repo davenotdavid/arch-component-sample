@@ -6,6 +6,8 @@
     tools:context=".ui.articledetail.ArticleDetailFragment"
     >
 
+    <!-- TODO: Remove when ready -->
+
     <WebView
         android:id="@+id/article_page_web_view"
         android:layout_width="match_parent"

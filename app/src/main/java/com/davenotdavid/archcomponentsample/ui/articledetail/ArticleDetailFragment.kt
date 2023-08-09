@@ -10,19 +10,31 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.davenotdavid.archcomponentsample.databinding.FragmentArticleDetailBinding
 
+/**
+ * TODO: Finalize
+ */
 class ArticleDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentArticleDetailBinding
     private val articleDetailArgs: ArticleDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                // TODO
+//            }
+//        }
+
+        // TODO: Remove
         binding = FragmentArticleDetailBinding.inflate(inflater, container, false)
         return binding.root
     }

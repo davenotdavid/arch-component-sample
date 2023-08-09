@@ -7,12 +7,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.davenotdavid.archcomponentsample"
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -35,15 +35,21 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        compose true
+        // TODO: Remove
         viewBinding true
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    // TODO: Remove
     dataBinding {
         enabled = true
     }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
@@ -54,6 +60,19 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.room:room-runtime:$androidx_room_version"
     kapt "androidx.room:room-compiler:$androidx_room_version"
+
+    // Compose
+    implementation 'androidx.activity:activity-compose:1.7.2'
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.animation:animation:$compose_version"
+    // Tooling support (Previews, etc.)
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+    // TODO: Following mapper dependencies needed?
+    // When using a Material Design Component (MDC) theme
+//    implementation "com.google.android.material:compose-theme-adapter:1.1.2"
+    // When using an AppCompat theme
+//    implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -66,7 +85,10 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
     kapt "com.google.dagger:hilt-compiler:$dagger_hilt_version"
 
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    // TODO: Finalize image loading/caching library
+    implementation "io.coil-kt:coil-compose:2.4.0"
+//    implementation 'com.github.bumptech.glide:glide:4.12.0'
+//    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
 
     // Reference https://developer.android.com/training/testing/instrumented-tests/androidx-test-libraries/test-setup
 

@@ -10,7 +10,6 @@ import com.davenotdavid.archcomponentsample.model.Article
 import com.davenotdavid.archcomponentsample.model.BaseViewModel
 import com.davenotdavid.archcomponentsample.model.MviContract
 import kotlinx.coroutines.launch
-import com.davenotdavid.archcomponentsample.util.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,8 +35,8 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
-    private val _openArticleWebEvent = MutableLiveData<Event<String>>()
-    val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
+//    private val _openArticleWebEvent = MutableLiveData<Event<String>>()
+//    val openArticleWebEvent: LiveData<Event<String>> = _openArticleWebEvent
 
     init {
         getHeadlines()
@@ -66,10 +65,12 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     }
 
     /**
+     * TODO: Remove
+     *
      * Called by Data Binding via [ArticlesAdapter].
      */
     fun openArticleWebView(url: String) {
-        _openArticleWebEvent.value = Event(url)
+//        _openArticleWebEvent.value = Event(url)
     }
 
     /**

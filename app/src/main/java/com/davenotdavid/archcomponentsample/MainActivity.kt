@@ -15,6 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 /**
  * Marks an Android component class to be setup for injection with the standard
  * Hilt Dagger Android components.
+ *
+ * TODO: Decide what to keep when refactoring to Compose
  */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

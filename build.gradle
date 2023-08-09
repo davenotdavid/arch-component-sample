@@ -6,8 +6,11 @@ buildscript {
         androidx_navigation_version = '2.3.5'
         androidx_room_version = '2.4.0'
 
+        // Compose
+        compose_version = '1.4.3'
+
         // DI
-        dagger_hilt_version = '2.38.1'
+        dagger_hilt_version = '2.47'
 
         // Networking
         okhttp_version = '4.9.3'
@@ -19,8 +22,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
+        classpath "com.android.tools.build:gradle:7.0.4"
+        // TODO: Compose Compiler v1.0.5 is only supported for Kotlin v1.5.31 (as of 8/9/2023)
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidx_navigation_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
     }
