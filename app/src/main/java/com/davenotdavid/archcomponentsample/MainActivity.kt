@@ -4,7 +4,13 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -43,19 +49,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            // TODO: Theming for toolbar and etc.
-            ComposeAppTheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = "articles",
-                ) {
-                    composable(route = "articles") {
-                        val state = articlesViewModel.uiState.collectAsState()
-                        ArticlesScreen(headlineState = state.value.headlineState)
-                    }
+            Scaffold(
+                topBar = {
+                    TopAppBar(title = {
+                        Text(text = stringResource(id = R.string.title_articles))
+                    })
+                }
+                // TODO: FAB
+            ) { padding ->
+                ComposeAppTheme {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "articles",
+                        // TODO: Padding official here?
+                        modifier = Modifier.padding(padding)
+                    ) {
+                        composable(route = "articles") {
+                            val state = articlesViewModel.uiState.collectAsState()
+                            ArticlesScreen(headlineState = state.value.headlineState)
+                        }
 
-                    // TODO: Article details
+                        // TODO: Article details
+                    }
                 }
             }
         }
