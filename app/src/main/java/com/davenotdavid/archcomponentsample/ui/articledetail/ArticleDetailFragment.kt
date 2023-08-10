@@ -16,12 +16,12 @@ import androidx.navigation.fragment.navArgs
 import com.davenotdavid.archcomponentsample.databinding.FragmentArticleDetailBinding
 
 /**
- * TODO: Finalize
+ * TODO: Convert to Compose
  */
 class ArticleDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentArticleDetailBinding
-    private val articleDetailArgs: ArticleDetailFragmentArgs by navArgs()
+//    private val articleDetailArgs: ArticleDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +71,7 @@ class ArticleDetailFragment : Fragment() {
                 }
             }
 
-            loadUrl(articleDetailArgs.articleUrl)
+            loadUrl("articleDetailArgs.articleUrl")
         }
     }
 

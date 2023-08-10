@@ -56,15 +56,16 @@ class ArticlesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // TODO
         return ComposeView(requireContext()).apply {
-            setContent {
-                ComposeAppTheme {
-                    // TODO: Separate function?
-                    // TODO: How about side-effects?
-                    val state = viewModel.uiState.collectAsState()
-                    ArticlesScreen(headlineState = state.value.headlineState)
-                }
-            }
+//            setContent {
+//                ComposeAppTheme {
+//                    // TODO: Separate function?
+//                    // TODO: How about side-effects?
+//                    val state = viewModel.uiState.collectAsState()
+//                    ArticlesScreen(headlineState = state.value.headlineState)
+//                }
+//            }
         }
 
 
@@ -119,38 +120,39 @@ class ArticlesFragment : Fragment() {
      * that the Flow (UI State and Effect) will be collected when the lifecycle is
      * started at least.
      *
+     * TODO: Remove in favor of Compose nav
      * TODO: Temporarily invoking ViewModel's setter functions until data/view
      *  binding is removed
      */
-    private fun observeStateEffectChanges() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiState.collect {
-                when (it.headlineState) {
-                    is MviContract.HeadlineState.Idle -> {
-                        viewModel.setLoading(false)
-                    }
-                    is MviContract.HeadlineState.Loading -> {
-                        viewModel.setLoading(true)
-                    }
-                    is Success -> {
-                        viewModel.setLoading(false)
-                        viewModel.setArticles(it.headlineState.headline.articles)
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.effect.collect {
-                when (it) {
-                    is MviContract.Effect.ShowToast -> {
-                        viewModel.setArticles(emptyList())
-                        Toast.makeText(this@ArticlesFragment.context, "An error has occurred", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
+//    private fun observeStateEffectChanges() {
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.uiState.collect {
+//                when (it.headlineState) {
+//                    is MviContract.HeadlineState.Idle -> {
+//                        viewModel.setLoading(false)
+//                    }
+//                    is MviContract.HeadlineState.Loading -> {
+//                        viewModel.setLoading(true)
+//                    }
+//                    is Success -> {
+//                        viewModel.setLoading(false)
+//                        viewModel.setArticles(it.headlineState.headline.articles)
+//                    }
+//                }
+//            }
+//        }
+//
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.effect.collect {
+//                when (it) {
+//                    is MviContract.Effect.ShowToast -> {
+//                        viewModel.setArticles(emptyList())
+//                        Toast.makeText(this@ArticlesFragment.context, "An error has occurred", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
      * TODO: Alternative to using Nav component not needing an XML layout? Or, hybrid approach for now?
@@ -159,190 +161,4 @@ class ArticlesFragment : Fragment() {
 //        val action = ArticlesFragmentDirections.actionArticlesFragmentToArticleDetailFragment(url)
 //        findNavController().navigate(action)
 //    }
-}
-
-// TODO: Placement
-
-/**
- * TODO: Finalize modifiers
- * TODO: Coroutine scope placement?
- * TODO: Decouple Composable components
- * TODO: Other params like content padding?
- * TODO: On click listener
- * TODO: Lazy list state?
- * TODO: Try Live Edit with Studio version Giraffe
- */
-// TODO: @OptIn(ExperimentalGlideComposeApi::class)
-@Composable
-fun ArticlesScreen(
-    modifier: Modifier = Modifier,
-    headlineState: MviContract.HeadlineState
-) {
-//    val state = viewModel.uiState.collectAsState()
-    // TODO: How about for side-effects?
-
-    when (headlineState) {
-        is Loading -> {
-            FullScreenLoading()
-        }
-        is Idle -> {
-            // TODO
-            Log.d("tag", "Idle")
-        }
-        is Success -> {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                val headline = headlineState.headline
-
-                items(items = headline.articles, key = { it.id }) { article ->
-                    Column(modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .clickable {
-                            // TODO
-                        }
-                    ) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            val placeholder = painterResource(id = R.drawable.ic_placeholder)
-                            AsyncImage(
-                                modifier = Modifier.weight(0.3f),
-                                model = article.url,
-                                contentDescription = "Article Image",
-                                error = placeholder,
-                                fallback = placeholder
-                            )
-
-                            // TODO: Testing purposes
-//                            Image(
-//                                modifier = Modifier.weight(0.3f),
-//                                painter = placeholder,
-//                                contentDescription = ""
-//                            )
-
-                            Column(modifier = Modifier.weight(0.7f)) {
-                                Text(
-                                    text = article.title,
-                                    color = Purple200
-                                )
-
-                                Text(
-                                    text = article.publishedAt
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Full screen circular progress indicator
- *
- * TODO: Official?
- */
-@Composable
-private fun FullScreenLoading() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-/**
- * TODO
- */
-@Preview
-@Composable
-fun PreviewArticlesScreen() {
-    ComposeAppTheme {
-        val dummyHeadline = Headline(
-            id = "1",
-            status = "ok",
-            totalResults = 7618,
-            articles = listOf(
-                Article(
-                    id = "11",
-                    source = Source(
-                        id = "111",
-                        name = "MakeUseOf"
-                    ),
-                    author = "Emma Garofalo",
-                    title = "Tesla Updates Passenger Play to Stop Drivers Playing Games While Driving",
-                    description = "Tesla is updating its Passenger Play feature to ensure drivers and passengers alike can only play games while the car is parked.",
-                    url = "https://www.makeuseof.com/tesla-updates-passenger-play-feature/",
-                    urlToImage = "https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2021/12/tesla-passenger-play.jpg",
-                    publishedAt = "2021-12-26T16:40:20Z",
-                    content = "After a National Highway Traffic Safety Administration (NHTSA) review, Tesla is officially pulling the plug on gaming while driving.\r\nThe company's controversial Passenger Play feature is being diale… [+2486 chars]"
-                ),
-                Article(
-                    id = "22",
-                    source = Source(
-                        id = "222",
-                        name = "MakeUseOf"
-                    ),
-                    author = "Emma Garofalo",
-                    title = "Tesla Updates Passenger Play to Stop Drivers Playing Games While Driving",
-                    description = "Tesla is updating its Passenger Play feature to ensure drivers and passengers alike can only play games while the car is parked.",
-                    url = "https://www.makeuseof.com/tesla-updates-passenger-play-feature/",
-                    urlToImage = "https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2021/12/tesla-passenger-play.jpg",
-                    publishedAt = "2021-12-26T16:40:20Z",
-                    content = "After a National Highway Traffic Safety Administration (NHTSA) review, Tesla is officially pulling the plug on gaming while driving.\r\nThe company's controversial Passenger Play feature is being diale… [+2486 chars]"
-                ),
-                Article(
-                    id = "33",
-                    source = Source(
-                        id = "333",
-                        name = "MakeUseOf"
-                    ),
-                    author = "Emma Garofalo",
-                    title = "Tesla Updates Passenger Play to Stop Drivers Playing Games While Driving",
-                    description = "Tesla is updating its Passenger Play feature to ensure drivers and passengers alike can only play games while the car is parked.",
-                    url = "https://www.makeuseof.com/tesla-updates-passenger-play-feature/",
-                    urlToImage = "https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2021/12/tesla-passenger-play.jpg",
-                    publishedAt = "2021-12-26T16:40:20Z",
-                    content = "After a National Highway Traffic Safety Administration (NHTSA) review, Tesla is officially pulling the plug on gaming while driving.\r\nThe company's controversial Passenger Play feature is being diale… [+2486 chars]"
-                ),
-                Article(
-                    id = "44",
-                    source = Source(
-                        id = "444",
-                        name = "MakeUseOf"
-                    ),
-                    author = "Emma Garofalo",
-                    title = "Tesla Updates Passenger Play to Stop Drivers Playing Games While Driving",
-                    description = "Tesla is updating its Passenger Play feature to ensure drivers and passengers alike can only play games while the car is parked.",
-                    url = "https://www.makeuseof.com/tesla-updates-passenger-play-feature/",
-                    urlToImage = "https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2021/12/tesla-passenger-play.jpg",
-                    publishedAt = "2021-12-26T16:40:20Z",
-                    content = "After a National Highway Traffic Safety Administration (NHTSA) review, Tesla is officially pulling the plug on gaming while driving.\r\nThe company's controversial Passenger Play feature is being diale… [+2486 chars]"
-                ),
-                Article(
-                    id = "55",
-                    source = Source(
-                        id = "555",
-                        name = "MakeUseOf"
-                    ),
-                    author = "Emma Garofalo",
-                    title = "Tesla Updates Passenger Play to Stop Drivers Playing Games While Driving",
-                    description = "Tesla is updating its Passenger Play feature to ensure drivers and passengers alike can only play games while the car is parked.",
-                    url = "https://www.makeuseof.com/tesla-updates-passenger-play-feature/",
-                    urlToImage = "https://static1.makeuseofimages.com/wordpress/wp-content/uploads/2021/12/tesla-passenger-play.jpg",
-                    publishedAt = "2021-12-26T16:40:20Z",
-                    content = "After a National Highway Traffic Safety Administration (NHTSA) review, Tesla is officially pulling the plug on gaming while driving.\r\nThe company's controversial Passenger Play feature is being diale… [+2486 chars]"
-                )
-            )
-        )
-
-        ArticlesScreen(
-            headlineState = Success(dummyHeadline)
-        )
-    }
 }
