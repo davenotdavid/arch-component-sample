@@ -10,6 +10,8 @@ A sample project attempting to use the latest and greatest Android tech. The cod
 
 [dev-arch-mvi](https://github.com/davenotdavid/arch-component-sample/tree/dev-arch-mvi) attempts to use MVI (on top of MVVM for its ViewModel components like `CoroutineScope`, Dagger's Hilt DI, and etc.).
 
+[dev-arch-mvi-compose](https://github.com/davenotdavid/arch-component-sample/tree/dev-arch-mvi-compose) attempts to use MVI and Compose.
+
 Note that the app is getting its data from [News API](https://newsapi.org).
 
 Demo:
