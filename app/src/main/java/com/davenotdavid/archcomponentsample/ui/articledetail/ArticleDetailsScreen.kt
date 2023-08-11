@@ -1,4 +1,4 @@
-package com.davenotdavid.archcomponentsample.ui.articles
+package com.davenotdavid.archcomponentsample.ui.articledetail
 
 import android.annotation.SuppressLint
 import android.webkit.WebView

@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.davenotdavid.archcomponentsample.R
 import com.davenotdavid.archcomponentsample.model.Article
@@ -30,7 +29,6 @@ import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
- * TODO: Clean up unused files
  * TODO: Update README
  * TODO: Swipe refresh layout
  * TODO: Coroutine scope placement?

@@ -6,7 +6,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-
+/**
+ * MVVM's part of [ViewModel] to be used accordingly with MVI and Compose.
+ */
 abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect> : ViewModel() {
 
     // Creates an initial state of view
