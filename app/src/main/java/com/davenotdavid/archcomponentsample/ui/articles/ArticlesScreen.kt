@@ -27,7 +27,6 @@ import com.davenotdavid.archcomponentsample.model.MviContract
 import com.davenotdavid.archcomponentsample.model.Source
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 import com.davenotdavid.archcomponentsample.ui.compose.theme.Purple200
-import com.davenotdavid.archcomponentsample.ui.compose.theme.Teal200
 
 /**
  * TODO: Finalize modifiers
@@ -38,16 +37,11 @@ import com.davenotdavid.archcomponentsample.ui.compose.theme.Teal200
  * TODO: Lazy list state?
  * TODO: Try Live Edit with Studio version Giraffe
  */
-// TODO: @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ArticlesScreen(
     modifier: Modifier = Modifier,
     headlineState: MviContract.HeadlineState
 ) {
-    // TODO
-//    val state = viewModel.uiState.collectAsState()
-    // TODO: How about for side-effects?
-
     when (headlineState) {
         is MviContract.HeadlineState.Loading -> {
             FullScreenLoading()
@@ -76,18 +70,11 @@ fun ArticlesScreen(
                             val placeholder = painterResource(id = R.drawable.ic_placeholder)
                             AsyncImage(
                                 modifier = Modifier.weight(0.3f),
-                                model = article.url,
+                                model = article.urlToImage,
                                 contentDescription = "Article Image",
                                 error = placeholder,
                                 fallback = placeholder
                             )
-
-                            // TODO: Testing purposes
-//                            Image(
-//                                modifier = Modifier.weight(0.3f),
-//                                painter = placeholder,
-//                                contentDescription = ""
-//                            )
 
                             Column(modifier = Modifier.weight(0.7f)) {
                                 Text(
