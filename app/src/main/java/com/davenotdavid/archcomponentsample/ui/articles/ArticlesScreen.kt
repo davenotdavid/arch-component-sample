@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,8 +18,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.davenotdavid.archcomponentsample.R
 import com.davenotdavid.archcomponentsample.model.Article
@@ -26,14 +30,11 @@ import com.davenotdavid.archcomponentsample.model.Headline
 import com.davenotdavid.archcomponentsample.model.MviContract
 import com.davenotdavid.archcomponentsample.model.Source
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
-import com.davenotdavid.archcomponentsample.ui.compose.theme.Purple200
 
 /**
- * TODO: Finalize modifiers
+ * TODO: On click listener
  * TODO: Coroutine scope placement?
  * TODO: Decouple Composable components
- * TODO: Other params like content padding?
- * TODO: On click listener
  * TODO: Lazy list state?
  * TODO: Try Live Edit with Studio version Giraffe
  */
@@ -59,31 +60,43 @@ fun ArticlesScreen(
                 val headline = headlineState.headline
 
                 items(items = headline.articles, key = { it.id }) { article ->
-                    Column(modifier = Modifier
+                    Column(modifier = modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
                         .clickable {
                             // TODO
                         }
                     ) {
-                        Row(modifier = Modifier.fillMaxWidth()) {
+                        Row(
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight()
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             val placeholder = painterResource(id = R.drawable.ic_placeholder)
                             AsyncImage(
-                                modifier = Modifier.weight(0.3f),
+                                modifier = modifier.weight(0.3f),
                                 model = article.urlToImage,
                                 contentDescription = "Article Image",
                                 error = placeholder,
                                 fallback = placeholder
                             )
 
-                            Column(modifier = Modifier.weight(0.7f)) {
+                            Column(
+                                modifier = modifier
+                                    .weight(0.7f)
+                                    .padding(start = 8.dp)
+                            ) {
                                 Text(
                                     text = article.title,
-                                    color = Purple200
+                                    fontSize = 16.sp
                                 )
 
                                 Text(
-                                    text = article.publishedAt
+                                    text = article.publishedAt,
+                                    fontSize = 12.sp,
+                                    color = Color.Gray
                                 )
                             }
                         }
