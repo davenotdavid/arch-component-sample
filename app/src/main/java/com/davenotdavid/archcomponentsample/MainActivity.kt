@@ -13,20 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.findNavController
+import androidx.navigation.navArgument
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.davenotdavid.archcomponentsample.ui.articles.ArticleDetailsScreen
 //import com.davenotdavid.archcomponentsample.databinding.ActivityMainBinding
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesScreen
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 /**
  * Marks an Android component class to be setup for injection with the standard
@@ -67,10 +72,33 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "articles") {
                             val state = articlesViewModel.uiState.collectAsState()
-                            ArticlesScreen(headlineState = state.value.headlineState)
+                            ArticlesScreen(
+                                headlineState = state.value.headlineState,
+                                onArticleClick = { article ->
+                                    // Nav routes are equivalent to URLs (e.g. IDs generally work
+                                    // as args) so need to encode here
+                                    val encodedUrl = URLEncoder.encode(
+                                        article.url,
+                                        StandardCharsets.UTF_8.toString()
+                                    )
+                                    navController.navigate("articleDetails/${encodedUrl}")
+                                }
+                            )
                         }
 
-                        // TODO: Article details
+                        // TODO: Nav transitions
+                        composable(
+                            route = "articleDetails/{articleUrl}",
+                            arguments = listOf(navArgument("articleUrl") { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            // URL argument gets decoded
+                            val articleUrl = backStackEntry.arguments?.getString("articleUrl")
+                                ?: throw IllegalArgumentException("Article URL must not be null")
+                            ArticleDetailsScreen(
+                                navController = navController,
+                                url = articleUrl
+                            )
+                        }
                     }
                 }
             }

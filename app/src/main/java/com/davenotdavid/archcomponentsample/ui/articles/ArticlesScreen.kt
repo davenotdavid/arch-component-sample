@@ -2,18 +2,14 @@ package com.davenotdavid.archcomponentsample.ui.articles
 
 import android.util.Log
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,25 +19,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.davenotdavid.archcomponentsample.R
 import com.davenotdavid.archcomponentsample.model.Article
 import com.davenotdavid.archcomponentsample.model.Headline
 import com.davenotdavid.archcomponentsample.model.MviContract
 import com.davenotdavid.archcomponentsample.model.Source
+import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
- * TODO: On click listener
+ * TODO: Clean up unused files
+ * TODO: Update README
+ * TODO: Swipe refresh layout
  * TODO: Coroutine scope placement?
  * TODO: Decouple Composable components
  * TODO: Lazy list state?
  * TODO: Try Live Edit with Studio version Giraffe
+ * TODO: Testing
  */
 @Composable
 fun ArticlesScreen(
     modifier: Modifier = Modifier,
-    headlineState: MviContract.HeadlineState
+    headlineState: MviContract.HeadlineState,
+    onArticleClick: (Article) -> Unit,
 ) {
     when (headlineState) {
         is MviContract.HeadlineState.Loading -> {
@@ -64,7 +66,7 @@ fun ArticlesScreen(
                         .fillMaxWidth()
                         .fillMaxHeight()
                         .clickable {
-                            // TODO
+                            onArticleClick(article)
                         }
                     ) {
                         Row(
@@ -104,23 +106,6 @@ fun ArticlesScreen(
                 }
             }
         }
-    }
-}
-
-/**
- * Full screen circular progress indicator
- *
- * TODO: Official?
- * TODO: Placement
- */
-@Composable
-private fun FullScreenLoading() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .wrapContentSize(Alignment.Center)
-    ) {
-        CircularProgressIndicator()
     }
 }
 
@@ -207,7 +192,8 @@ fun PreviewArticlesScreen() {
         )
 
         ArticlesScreen(
-            headlineState = MviContract.HeadlineState.Success(dummyHeadline)
+            headlineState = MviContract.HeadlineState.Success(dummyHeadline),
+            onArticleClick = {}
         )
     }
 }

@@ -16,7 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.davenotdavid.archcomponentsample.databinding.FragmentArticleDetailBinding
 
 /**
- * TODO: Convert to Compose
+ * TODO: Remove
  */
 class ArticleDetailFragment : Fragment() {
 
