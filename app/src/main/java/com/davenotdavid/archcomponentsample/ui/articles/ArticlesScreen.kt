@@ -29,7 +29,6 @@ import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
- * TODO: Update README once more
  * TODO: Swipe refresh layout
  * TODO: Decouple Composable components
  * TODO: Lazy list state?
