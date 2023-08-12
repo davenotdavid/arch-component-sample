@@ -1,6 +1,6 @@
 # Android Architecture Component Sample Project
 A sample project attempting to use the latest and greatest Android tech. This **WIP** branch attempts to use tech including, but not limited to:
-- MVI (on top of MVVM for its `ViewModel` components like `CoroutineScope`, Dagger's Hilt DI, and etc.) 
+- MVI (on top of MVVM for its `ViewModel` components like Coroutines, Dagger's Hilt DI, and etc.) 
 - Jetpack Compose (to further honor the UDF pattern)
 - Compose Navigation
 - Kotlin Coroutines and Flow
