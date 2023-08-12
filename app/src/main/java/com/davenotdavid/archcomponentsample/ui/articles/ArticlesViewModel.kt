@@ -41,14 +41,14 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
 
     /**
      * TODO: Wire-up with swipe refresh layout composable?
-     *
-     * Data binding with [SwipeRefreshLayout]'s public functions/callbacks to
-     * invoke [onRefresh] below.
      */
     fun onRefresh() {
         getHeadlines()
     }
 
+    /**
+     * TODO: Handle custom user queries for headlines to test more events
+     */
     private fun getHeadlines() = viewModelScope.launch {
         setState { copy(headlineState = MviContract.HeadlineState.Loading) }
 

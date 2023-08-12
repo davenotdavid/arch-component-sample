@@ -29,12 +29,10 @@ import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
- * TODO: Update README
+ * TODO: Update README once more
  * TODO: Swipe refresh layout
- * TODO: Coroutine scope placement?
  * TODO: Decouple Composable components
  * TODO: Lazy list state?
- * TODO: Try Live Edit with Studio version Giraffe
  * TODO: Testing
  */
 @Composable
