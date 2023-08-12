@@ -8,7 +8,7 @@ A sample project attempting to use the latest and greatest Android tech. This **
 - Retrofit2
 - OkHttp3
 - Room DB
-- Unit testing w/ Mokito
+- Unit testing w/ Mockito
 
 Note that the app is getting its data from [News API](https://newsapi.org).
 
