@@ -12,10 +12,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 import java.util.UUID
 import javax.inject.Inject
 
-/**
- * This repo instance used in say, View Models, are constructor-injected via
- * Hilt's View Model annotation.
- */
 class NewsApiRepository @Inject constructor(@ApplicationContext private val appContext: Context,
                                             private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
                                             private val service: NewsApiService,
@@ -24,12 +20,14 @@ class NewsApiRepository @Inject constructor(@ApplicationContext private val appC
 
     /**
      * Returns fresh headline data if there's network connection. Otherwise, cached
-     * data from the DB is returned.
+     * data from the DB is returned (although URL image loading and opening web
+     * views isn't as supported in offline mode).
      */
     @Throws(Exception::class)
-    suspend fun getHeadlines(type: String,
-                             category: String): Headline
-    {
+    suspend fun getHeadlines(
+        type: String,
+        category: String
+    ): Headline {
         return withContext(dispatcher) {
             if (appContext.isNetworkConnected()) {
                 val headline = service.getHeadlinesAsync(type, category, BuildConfig.NEWS_API_KEY).await()
