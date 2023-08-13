@@ -30,8 +30,6 @@ import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
  * TODO: Swipe refresh layout
- * TODO: Decouple Composable components
- * TODO: Lazy list state?
  * TODO: Testing
  */
 @Composable
@@ -45,7 +43,6 @@ fun ArticlesScreen(
             FullScreenLoading()
         }
         is MviContract.HeadlineState.Idle -> {
-            // TODO
             Log.d("tag", "Idle")
         }
         is MviContract.HeadlineState.Success -> {
@@ -57,48 +54,61 @@ fun ArticlesScreen(
                 val headline = headlineState.headline
 
                 items(items = headline.articles, key = { it.id }) { article ->
-                    Column(modifier = modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .clickable {
-                            onArticleClick(article)
-                        }
-                    ) {
-                        Row(
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .wrapContentHeight()
-                                .padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            val placeholder = painterResource(id = R.drawable.ic_placeholder)
-                            AsyncImage(
-                                modifier = modifier.weight(0.3f),
-                                model = article.urlToImage,
-                                contentDescription = "Article Image",
-                                error = placeholder,
-                                fallback = placeholder
-                            )
-
-                            Column(
-                                modifier = modifier
-                                    .weight(0.7f)
-                                    .padding(start = 8.dp)
-                            ) {
-                                Text(
-                                    text = article.title,
-                                    fontSize = 16.sp
-                                )
-
-                                Text(
-                                    text = article.publishedAt,
-                                    fontSize = 12.sp,
-                                    color = Color.Gray
-                                )
-                            }
-                        }
-                    }
+                    ArticleRowItem(
+                        modifier = modifier,
+                        article = article,
+                        onArticleClick = onArticleClick
+                    )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun ArticleRowItem(
+    modifier: Modifier,
+    article: Article,
+    onArticleClick: (Article) -> Unit
+) {
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .clickable {
+            onArticleClick(article)
+        }
+    ) {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val placeholder = painterResource(id = R.drawable.ic_placeholder)
+            AsyncImage(
+                modifier = modifier.weight(0.3f),
+                model = article.urlToImage,
+                contentDescription = "Article Image",
+                error = placeholder,
+                fallback = placeholder
+            )
+
+            Column(
+                modifier = modifier
+                    .weight(0.7f)
+                    .padding(start = 8.dp)
+            ) {
+                Text(
+                    text = article.title,
+                    fontSize = 16.sp
+                )
+
+                Text(
+                    text = article.publishedAt,
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
             }
         }
     }
