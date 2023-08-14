@@ -6,9 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -45,15 +49,23 @@ class MainActivity : ComponentActivity() {
                     TopAppBar(title = {
                         Text(text = stringResource(id = R.string.title_articles))
                     })
+                },
+                floatingActionButton = {
+                    FloatingActionButton(onClick = {
+                        articlesViewModel.setEvent(MviContract.Event.OnRefreshHeadlineClicked)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Refresh,
+                            contentDescription = "Refresh"
+                        )
+                    }
                 }
-                // TODO: FAB
             ) { padding ->
                 ComposeAppTheme {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
                         startDestination = "articles",
-                        // TODO: Padding official here?
                         modifier = Modifier.padding(padding)
                     ) {
                         composable(route = "articles") {

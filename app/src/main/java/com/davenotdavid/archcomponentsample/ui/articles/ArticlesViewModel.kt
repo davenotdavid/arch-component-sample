@@ -40,13 +40,6 @@ class ArticlesViewModel @Inject constructor(private val newsApiRepository: NewsA
     }
 
     /**
-     * TODO: Wire-up with swipe refresh layout composable?
-     */
-    fun onRefresh() {
-        getHeadlines()
-    }
-
-    /**
      * TODO: Handle custom user queries for headlines to test more events
      */
     private fun getHeadlines() = viewModelScope.launch {
