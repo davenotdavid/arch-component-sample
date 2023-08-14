@@ -8,17 +8,22 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.davenotdavid.archcomponentsample.model.MviContract
@@ -44,11 +49,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val navController = rememberNavController()
+
             Scaffold(
                 topBar = {
-                    TopAppBar(title = {
-                        Text(text = stringResource(id = R.string.title_articles))
-                    })
+                    AppBarBasedOnRoute(navController = navController)
                 },
                 floatingActionButton = {
                     FloatingActionButton(onClick = {
@@ -62,7 +67,6 @@ class MainActivity : ComponentActivity() {
                 }
             ) { padding ->
                 ComposeAppTheme {
-                    val navController = rememberNavController()
                     NavHost(
                         navController = navController,
                         startDestination = "articles",
@@ -102,10 +106,7 @@ class MainActivity : ComponentActivity() {
                             // URL argument gets decoded
                             val articleUrl = backStackEntry.arguments?.getString("articleUrl")
                                 ?: throw IllegalArgumentException("Article URL must not be null")
-                            ArticleDetailsScreen(
-                                navController = navController,
-                                url = articleUrl
-                            )
+                            ArticleDetailsScreen(url = articleUrl)
                         }
                     }
                 }
@@ -113,4 +114,46 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+}
+
+@Composable
+fun AppBarBasedOnRoute(
+    navController: NavHostController
+) {
+    when (
+        navController.currentBackStackEntryAsState().value?.destination?.route
+    ) {
+        "articles" -> {
+            TopAppBar(title = {
+                Text(text = stringResource(id = R.string.title_articles))
+            })
+        }
+        "articleDetails/{articleUrl}" -> {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(id = R.string.title_article_details))
+                },
+                navigationIcon = if (navController.previousBackStackEntry != null) {
+                    {
+                        IconButton(onClick = {
+                            navController.navigateUp()
+                        }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                    }
+                } else {
+                    null
+                }
+            )
+        }
+        // Blank text for init purposes
+        else -> {
+            TopAppBar(title = {
+                Text(text = "")
+            })
+        }
+    }
 }
