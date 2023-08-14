@@ -12,11 +12,12 @@ import kotlinx.coroutines.CoroutineDispatcher
 import java.util.UUID
 import javax.inject.Inject
 
-class NewsApiRepository @Inject constructor(@ApplicationContext private val appContext: Context,
-                                            private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-                                            private val service: NewsApiService,
-                                            private val headlineDao: HeadlineDao)
-{
+class NewsApiRepository @Inject constructor(
+    @ApplicationContext private val appContext: Context,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val service: NewsApiService,
+    private val headlineDao: HeadlineDao
+) {
 
     /**
      * Returns fresh headline data if there's network connection. Otherwise, cached
