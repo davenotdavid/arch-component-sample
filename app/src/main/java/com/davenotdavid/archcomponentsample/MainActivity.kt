@@ -1,6 +1,7 @@
 package com.davenotdavid.archcomponentsample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -16,9 +17,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.davenotdavid.archcomponentsample.model.MviContract
 import com.davenotdavid.archcomponentsample.ui.articledetail.ArticleDetailsScreen
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesScreen
 import com.davenotdavid.archcomponentsample.ui.articles.ArticlesViewModel
+import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.net.URLEncoder
@@ -55,18 +58,28 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "articles") {
                             val state = articlesViewModel.uiState.collectAsState()
-                            ArticlesScreen(
-                                headlineState = state.value.headlineState,
-                                onArticleClick = { article ->
-                                    // Nav routes are equivalent to URLs (e.g. IDs generally work
-                                    // as args) so need to encode here
-                                    val encodedUrl = URLEncoder.encode(
-                                        article.url,
-                                        StandardCharsets.UTF_8.toString()
-                                    )
-                                    navController.navigate("articleDetails/${encodedUrl}")
+                            when (val headlineState = state.value.headlineState) {
+                                is MviContract.HeadlineState.Loading -> {
+                                    FullScreenLoading()
                                 }
-                            )
+                                is MviContract.HeadlineState.Idle -> {
+                                    Log.d("tag", "Idle")
+                                }
+                                is MviContract.HeadlineState.Success -> {
+                                    ArticlesScreen(
+                                        articles = headlineState.headline.articles,
+                                        onArticleClick = { article ->
+                                            // Nav routes are equivalent to URLs (e.g. IDs generally work
+                                            // as args) so need to encode here
+                                            val encodedUrl = URLEncoder.encode(
+                                                article.url,
+                                                StandardCharsets.UTF_8.toString()
+                                            )
+                                            navController.navigate("articleDetails/${encodedUrl}")
+                                        }
+                                    )
+                                }
+                            }
                         }
 
                         // TODO: Nav transitions

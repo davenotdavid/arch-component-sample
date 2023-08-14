@@ -1,6 +1,5 @@
 package com.davenotdavid.archcomponentsample.ui.articles
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,9 +22,7 @@ import coil.compose.AsyncImage
 import com.davenotdavid.archcomponentsample.R
 import com.davenotdavid.archcomponentsample.model.Article
 import com.davenotdavid.archcomponentsample.model.Headline
-import com.davenotdavid.archcomponentsample.model.MviContract
 import com.davenotdavid.archcomponentsample.model.Source
-import com.davenotdavid.archcomponentsample.ui.components.FullScreenLoading
 import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 
 /**
@@ -35,80 +32,55 @@ import com.davenotdavid.archcomponentsample.ui.compose.theme.ComposeAppTheme
 @Composable
 fun ArticlesScreen(
     modifier: Modifier = Modifier,
-    headlineState: MviContract.HeadlineState,
+    articles: List<Article>,
     onArticleClick: (Article) -> Unit,
 ) {
-    when (headlineState) {
-        is MviContract.HeadlineState.Loading -> {
-            FullScreenLoading()
-        }
-        is MviContract.HeadlineState.Idle -> {
-            Log.d("tag", "Idle")
-        }
-        is MviContract.HeadlineState.Success -> {
-            LazyColumn(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                val headline = headlineState.headline
-
-                items(items = headline.articles, key = { it.id }) { article ->
-                    ArticleRowItem(
-                        modifier = modifier,
-                        article = article,
-                        onArticleClick = onArticleClick
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ArticleRowItem(
-    modifier: Modifier,
-    article: Article,
-    onArticleClick: (Article) -> Unit
-) {
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
-        .clickable {
-            onArticleClick(article)
-        }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
     ) {
-        Row(
-            modifier = modifier
+        items(items = articles, key = { it.id }) { article ->
+            Column(modifier = modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val placeholder = painterResource(id = R.drawable.ic_placeholder)
-            AsyncImage(
-                modifier = modifier.weight(0.3f),
-                model = article.urlToImage,
-                contentDescription = "Article Image",
-                error = placeholder,
-                fallback = placeholder
-            )
-
-            Column(
-                modifier = modifier
-                    .weight(0.7f)
-                    .padding(start = 8.dp)
+                .fillMaxHeight()
+                .clickable {
+                    onArticleClick(article)
+                }
             ) {
-                Text(
-                    text = article.title,
-                    fontSize = 16.sp
-                )
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val placeholder = painterResource(id = R.drawable.ic_placeholder)
+                    AsyncImage(
+                        modifier = modifier.weight(0.3f),
+                        model = article.urlToImage,
+                        contentDescription = "Article Image",
+                        error = placeholder,
+                        fallback = placeholder
+                    )
 
-                Text(
-                    text = article.publishedAt,
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
+                    Column(
+                        modifier = modifier
+                            .weight(0.7f)
+                            .padding(start = 8.dp)
+                    ) {
+                        Text(
+                            text = article.title,
+                            fontSize = 16.sp
+                        )
+
+                        Text(
+                            text = article.publishedAt,
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
             }
         }
     }
@@ -197,7 +169,7 @@ fun PreviewArticlesScreen() {
         )
 
         ArticlesScreen(
-            headlineState = MviContract.HeadlineState.Success(dummyHeadline),
+            articles = dummyHeadline.articles,
             onArticleClick = {}
         )
     }
